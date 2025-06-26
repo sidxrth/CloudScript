@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Future of Sustainable Living</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Re-use your existing styles or define specific styles for blog posts */
+        :root {
+            --p: #004D40; /* Primary */
+            --s: #FF9800; /* Secondary */
+            --lb: #E0F7FA; /* Light Background */
+            --db: #00008B; /* Dark Background */
+            --tc: #333; /* Text Color */
+            --lt: #fff; /* Light Text */
+            --cb: #fff; /* Card Background */
+            --fb: #00332B; /* Footer Background */
+            --ft: #B2DFDB; /* Footer Text */
+            --shl: rgba(0,0,0,.15); /* Shadow Light */
+            --shm: rgba(0,0,0,.25); /* Shadow Medium */
+            --shh: rgba(0,0,0,.4); /* Shadow Heavy */
+            --ts: .3s; /* Transition Speed */
+            --cts: .8s; /* Carousel Transition Speed */
+            --br: 16px; /* Border Radius */
+            --sp: 1.8rem; /* Standard Padding */
+            --fs: 1rem; /* Font Size */
+        }
+        body { font-family: 'Inter',sans-serif; background-color: var(--lb); color: var(--tc); margin: 0; }
+        header { background-color: var(--p); color: var(--lt); padding: var(--fs) 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; box-shadow: 0 4px 12px var(--shh); }
+        header h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: 1.5px; text-shadow: 2px 2px 8px var(--shh); transition: transform var(--ts) ease; }
+        header h1:hover { transform: translateY(-2px); }
+        .header-right { display: flex; gap: 1.2rem; align-items: center; }
+        .user-profile { display: flex; align-items: center; gap: .8rem; color: var(--lt); font-weight: 700; font-size: 1.1rem; }
+        .user-profile i { font-size: 1.4rem; color: var(--s); }
+        .logout-icon { font-size: 1.4rem; color: #FF5722; cursor: pointer; transition: color var(--ts) ease; margin-left: .8rem; }
+        .logout-icon:hover { color: #E64A19; }
+
+        .blog-post-container {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background-color: var(--cb);
+            border-radius: var(--br);
+            box-shadow: 0 10px 25px var(--shl);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            position: relative; /* Essential for positioning the author-info */
+        }
+        .blog-post-container h2 {
+            font-size: 2.8rem;
+            color: var(--p);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .blog-post-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--br);
+            margin-bottom: 2rem;
+        }
+        .blog-post-container p {
+            margin-bottom: 1.5rem;
+        }
+        .back-to-home {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--p);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color var(--ts) ease;
+        }
+        .back-to-home:hover {
+            color: #00796B;
+            text-decoration: underline;
+        }
+
+        /* New styles for author information */
+        .author-info {
+            position: absolute; /* Position relative to the container */
+            bottom: 20px; /* Adjust as needed */
+            right: 20px; /* Adjust as needed */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background-color: rgba(0, 77, 64, 0.05); /* A subtle background */
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--tc);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: background-color 0.3s ease;
+        }
+        .author-info:hover {
+            background-color: rgba(0, 77, 64, 0.1);
+        }
+        .author-info img {
+            width: 40px; /* Small image size */
+            height: 40px;
+            border-radius: 50%; /* Make it circular */
+            object-fit: cover;
+            border: 2px solid var(--s); /* A little accent border */
+            margin-bottom: 0; /* Override default image margin */
+        }
+        .author-info span {
+            font-weight: 700;
+            color: var(--p);
+        }
+
+        footer { background-color: var(--fb); color: var(--ft); padding: 2.5rem; font-size: var(--fs); text-align: center; margin-top: 4rem;}
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .header-right { flex-wrap: wrap; justify-content: center; }
+            header h1 { font-size: 2.2rem; }
+            .blog-post-container { margin: 2rem auto; padding: 1rem; }
+            .blog-post-container h2 { font-size: 2.2rem; }
+            .author-info {
+                position: static; /* Stack naturally on smaller screens */
+                margin-top: 1.5rem;
+                justify-content: center;
+                width: fit-content;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1> CloudScript</h1>
+        <div class="header-right">
+            <div class="user-profile">
+                <i class="fas fa-user-circle"></i>
+                <span>Guest User</span>
+                <i class="fas fa-sign-out-alt logout-icon" onclick="window.location.href='../index.html'"></i> </div>
+        </div>
+    </header>
+
+    <div class="blog-post-container">
+        <h2>The Future of Sustainable Living</h2>
+        <img src="../assets/blog.jpg" alt="Blog Post Image">
+        <p>As global awareness of environmental issues grows, sustainable living is becoming not just a choice, but a necessity. This post explores innovative practices and future trends that are shaping a greener, more sustainable tomorrow. Discover how small changes in your daily life can contribute to a healthier planet.</p>
+        <p>We'll delve into topics like renewable energy, circular economy principles, eco-friendly consumer choices, and community initiatives that promote sustainability. Learn about cutting-edge technologies and simple habits that can reduce your carbon footprint and foster a more harmonious relationship with nature.</p>
+        <p>The future of sustainable living is within reach. By embracing conscious consumption and responsible practices, we can collectively build a resilient and thriving world for generations to come.</p>
+        <a href="../home.html" class="back-to-home">&larr; Back to Featured Posts</a>
+
+        <div class="author-info">
+            <img src="../assets/img3.jpg" alt="Author Avatar"> <span>By Dr. Seuss</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Blog Page. All rights reserved.</p>
+    </footer>
+</body>
+</html>

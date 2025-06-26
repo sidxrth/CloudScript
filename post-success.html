@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post Submission</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.75); /* General page overlay for readability */
+            z-index: -1;
+        }
+
+        /* --- Main Container Transparency: 95% transparent (0.05 opacity) --- */
+        .submission-container {
+            background-color: rgba(255, 255, 255, 0.00); /* THIS IS THE KEY CHANGE for 95% transparency */
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+            padding: 3rem;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
+            z-index: 1;
+            backdrop-filter: blur(8px); /* Stronger blur might be needed for very high transparency */
+            border: 1px solid rgba(255, 255, 255, 0.15); /* Very subtle transparent border */
+        }
+
+        .submission-container .icon {
+            font-size: 4rem;
+            color: #8bc34a;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite alternate;
+        }
+
+        .submission-container h1 {
+            font-size: 2.7rem;
+            color: #2e7d32;
+            margin: 0;
+        }
+
+        .submission-container p {
+            font-size: 1.15rem;
+            color: #333; /* Good contrast text */
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Inner tile remains distinct but still somewhat transparent */
+        .post-details-tile {
+            background-color: rgba(232, 245, 233, 0.2); /* Slightly more opaque (20% opacity) than the main container */
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 100%;
+            text-align: left;
+            box-sizing: border-box;
+            border: 1px solid rgba(200, 230, 201, 0.3);
+            backdrop-filter: blur(4px); /* Slightly less blur than main container, but still present */
+        }
+
+        .post-details-tile h3 {
+            color: #388e3c;
+            margin-top: 0;
+            font-size: 1.3rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .post-details-tile p {
+            font-size: 1rem;
+            color: #434343; /* Good contrast text */
+            word-wrap: break-word;
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .action-buttons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.1rem 2.2rem;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            min-width: 220px;
+            box-sizing: border-box;
+        }
+
+        .action-buttons a.btn-write-new {
+            background-color: #4caf50;
+        }
+
+        .action-buttons a.btn-write-new:hover {
+            background-color: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-buttons a.btn-home {
+            background-color: #03a9f4;
+        }
+
+        .action-buttons a.btn-home:hover {
+            background-color: #0288d1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        @media (max-width: 768px) {
+            .submission-container {
+                max-width: 90%;
+                padding: 2rem 1.5rem;
+                gap: 1.5rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .action-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .action-buttons a {
+                width: 100%;
+                max-width: 300px;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="submission-container">
+        <div class="icon"><i class="fas fa-check-circle"></i></div>
+        <h1>Blog Post Submitted!</h1>
+        <p>Thank you for submitting your blog post. It's now queued for review by our administrators and will be published once approved.</p>
+
+        <div class="post-details-tile">
+            <h3>Submitted Title: <span id="displayedPostTitle"></span></h3>
+            <p>Content Snippet: <span id="displayedPostContent"></span></p>
+        </div>
+
+        <div class="./action-buttons">
+            <a href="post.html" class="btn-write-new">
+                <i class="fas fa-plus-circle"></i> Write Another Blog
+            </a>
+            <a href="./home.html" class="btn-home">
+                <i class="fas fa-home"></i> Return to Homepage
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lastPostTitle = sessionStorage.getItem('lastPostTitle');
+            const lastPostContent = sessionStorage.getItem('lastPostContent');
+
+            if (lastPostTitle) {
+                document.getElementById('displayedPostTitle').textContent = lastPostTitle;
+            }
+            if (lastPostContent) {
+                document.getElementById('displayedPostContent').textContent = lastPostContent.substring(0, 100) + '...';
+            }
+        });
+    </script>
+</body>
+</html>

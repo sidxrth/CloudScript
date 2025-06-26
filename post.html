@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Write Your Blog - Create & Manage Posts</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        /* Define CSS variables for consistent styling across pages */
+        :root {
+            --p: #004D40; /* Primary - Dark Teal */
+            --s: #FF9800; /* Secondary - Vibrant Orange */
+            --lb: #E0F7FA; /* Light Background - Pale Blue-Green */
+            --tc: #333; /* Text Color - Dark Grey */
+            --lt: #fff; /* Light Text - White */
+            --cb: #fff; /* Card Background - White (unused directly for form now, but kept for context) */
+            --fb: #00332B; /* Footer Background - Darker Teal */
+            --ft: #B2DFDB; /* Footer Text - Light Blue-Green */
+            --shl: rgba(0,0,0,.1); /* Lighter Shadow */
+            --shm: rgba(0,0,0,.2); /* Medium Shadow */
+            --shh: rgba(0,0,0,.3); /* Heavier Shadow */
+            --ts: .4s; /* **Increased Transition Speed for smoother animations** */
+            --br: 16px; /* Border Radius */
+            --sp: 1.8rem; /* Standard Padding */
+            --fs: 1rem; /* Font Size */
+            --border-light-green: #6dae81; /* Current light green border color */
+            --container-fill-green: #D4EDDA; /* Current lighter green for container fill */
+            --darker-accent-green: #4CAF50; /* A slightly darker, more vibrant green for accents */
+            --form-bg-hover: #C5E5CC; /* Slightly darker green on form hover */
+            --input-shadow: 0 1px 4px rgba(0,0,0,0.08); /* **Slightly more pronounced subtle shadow for inputs** */
+            --hover-lift: translateY(-3px); /* **Standardized lift for hover effects** */
+            --focus-ring-color: rgba(255, 152, 0, 0.5); /* **More opaque focus ring** */
+            
+            /* New variables from manage.html, or refined for better consistency */
+            --bg-body-gradient: linear-gradient(135deg, #e0f7fa 0%, #c8e6c9 100%); /* Lighter, subtle green-blue gradient */
+            --card-bg: #FFFFFF;
+            --button-primary: var(--p);
+            --button-primary-hover: #00695C;
+            --button-secondary: var(--s);
+            --button-secondary-hover: #E65100;
+            --table-header-bg: var(--p);
+            --table-header-text: var(--lt);
+            --table-row-hover-bg: #F0F4C3; /* Light yellow-green for hover */
+            --icon-color: var(--p);
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Softer, larger shadow for cards */
+            --text-light: #666;
+            --text-dark: var(--tc);
+            --input-border-focus: var(--p); /* Consistent input border focus color */
+            --input-shadow-focus: 0 0 0 3px rgba(0, 77, 64, 0.2); /* Softer focus ring */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-body-gradient); /* Use gradient background */
+            color: var(--tc);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        header {
+            background-color: var(--p);
+            color: var(--lt);
+            padding: var(--fs) 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px var(--shh);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-direction: row;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--lt);
+            text-shadow: 2px 2px 8px var(--shh);
+            transition: transform var(--ts) ease, text-shadow var(--ts) ease;
+        }
+
+        header h1:hover {
+            transform: var(--hover-lift);
+            text-shadow: 3px 3px 10px var(--shh);
+        }
+
+        main {
+            margin-top: 100px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: calc(var(--sp) * 1.5) var(--sp);
+            flex-grow: 1;
+            box-sizing: border-box;
+            max-width: 1200px;
+        }
+
+        #postForm {
+            background-color: var(--card-bg); /* Match card background */
+            border: none; /* Remove border, rely on shadow */
+            border-radius: var(--br);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: var(--card-shadow); /* Use softer card shadow */
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            color: var(--tc);
+            transition: box-shadow var(--ts) ease, transform var(--ts) ease;
+        }
+
+        #postForm:hover {
+            box-shadow: 0 15px 40px var(--shh); /* Slightly more prominent shadow on hover */
+            transform: translateY(-5px);
+        }
+
+        #postForm h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--p);
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-shadow: 1px 1px 3px var(--shl);
+        }
+
+        #postForm input[type="text"],
+        #postForm textarea {
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            border: 1px solid #c0c0c0;
+            outline: none;
+            background: var(--lt);
+            color: var(--tc);
+            box-shadow: var(--input-shadow);
+            transition: border-color var(--ts) ease, box-shadow var(--ts) ease, transform var(--ts) ease;
+        }
+
+        #postForm input::placeholder,
+        #postForm textarea::placeholder {
+            color: #999;
+        }
+        
+        #postForm input[type="text"]:focus,
+        #postForm textarea:focus {
+            border-color: var(--input-border-focus); /* Use the primary color for focus border */
+            box-shadow: var(--input-shadow-focus); /* Use softer focus ring */
+            transform: translateY(-2px);
+        }
+
+        /* Styling for the file input */
+        #postForm input[type="file"] {
+            background: var(--lt);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            color: var(--tc);
+            font-size: 1rem;
+            box-shadow: var(--input-shadow);
+            transition: border-color var(--ts) ease, box-shadow var(--ts) ease, transform var(--ts) ease;
+        }
+
+        #postForm input[type="file"]:focus {
+            border-color: var(--input-border-focus);
+            box-shadow: var(--input-shadow-focus);
+            transform: translateY(-2px);
+        }
+
+        #postForm input[type="file"]::-webkit-file-upload-button {
+            background: var(--p);
+            color: var(--lt);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 20px;
+            transition: background var(--ts) ease, transform var(--ts) ease, box-shadow var(--ts) ease;
+            box-shadow: 0 2px 5px var(--shl);
+        }
+
+        #postForm input[type="file"]::-webkit-file-upload-button:hover {
+            background: var(--fb);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px var(--shm);
+        }
+
+        #postForm textarea {
+            resize: vertical;
+            min-height: 180px;
+        }
+
+        /* Custom Select Dropdown Styling */
+        .select-wrapper {
+            position: relative;
+            margin-bottom: 1.2rem; /* Consistent spacing */
+        }
+
+        .select-wrapper select {
+            width: 100%;
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            border: 1px solid #c0c0c0;
+            outline: none;
+            background: var(--lt);
+            color: var(--tc);
+            box-shadow: var(--input-shadow);
+            appearance: none; /* Remove default browser styling */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            transition: border-color var(--ts) ease, box-shadow var(--ts) ease, transform var(--ts) ease;
+        }
+
+        .select-wrapper select:focus {
+            border-color: var(--input-border-focus);
+            box-shadow: var(--input-shadow-focus);
+            transform: translateY(-2px);
+        }
+
+        .select-wrapper::after {
+            content: '\f0d7'; /* FontAwesome caret-down icon */
+            font-family: 'Font Awesome 5 Free'; /* Using Font Awesome 5 Free */
+            font-weight: 900; /* For solid icon */
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--p); /* Color of the caret */
+            pointer-events: none; /* Make sure click goes through to select */
+            font-size: 1.2rem;
+            transition: transform var(--ts) ease;
+        }
+
+        .select-wrapper select:focus + .select-wrapper::after {
+            transform: translateY(-50%) rotate(180deg);
+            color: var(--s);
+        }
+
+        #postForm select option {
+            background: var(--lb);
+            color: var(--tc);
+        }
+
+        #postForm button[type="submit"] {
+            padding: 1.2rem;
+            background-color: var(--s);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            color: var(--lt);
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color var(--ts) ease, transform var(--ts) ease, box-shadow var(--ts) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            box-shadow: 0 5px 12px var(--shm);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        #postForm button:hover {
+            background-color: var(--button-secondary-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px var(--shh);
+        }
+
+        #postForm button i {
+            font-size: 1.4rem;
+        }
+
+        i.fa-feather-alt {
+            font-size: 3.5rem;
+            color: var(--darker-accent-green);
+            text-align: center;
+            display: block;
+            margin-bottom: 1.2rem;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+            animation: bounceIn var(--ts) ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            60% { opacity: 1; transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        label {
+            color: var(--text-dark);
+            font-size: 1rem;
+            margin-bottom: 0.6rem;
+            display: block;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        #imageUploadStatus {
+            font-size: 0.95em;
+            margin-top: -0.8rem;
+            margin-bottom: 1.2rem;
+            text-align: right;
+            color: var(--text-light);
+            transition: color var(--ts) ease;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.88);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            border: 8px solid rgba(255,255,255,0.3);
+            border-top: 8px solid var(--s);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 30px;
+        }
+
+        .loading-text {
+            color: var(--lt);
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 5px var(--shh);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+
+        footer {
+            width: 100%;
+            background-color: var(--fb);
+            color: var(--ft);
+            padding: 2.8rem;
+            font-size: var(--fs);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            margin-top: auto;
+            box-shadow: 0 -4px 20px var(--shh);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--ft);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--ts) ease, transform var(--ts) ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--s);
+            transform: translateY(-3px);
+        }
+
+        .decorative-shape {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            main {
+                padding: var(--sp);
+                margin-top: 80px;
+            }
+
+            #postForm {
+                padding: 2rem;
+            }
+
+            #postForm h2 {
+                font-size: 1.8rem;
+            }
+
+            #postForm button {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 0.8rem 0;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            #postForm {
+                padding: 1.5rem;
+                gap: 0.8rem;
+            }
+
+            #postForm input[type="text"],
+            #postForm textarea,
+            .select-wrapper select {
+                padding: 0.9rem;
+                font-size: 1rem;
+            }
+
+            #postForm button {
+                font-size: 1rem;
+                padding: 0.8rem;
+                gap: 0.5rem;
+            }
+
+            #postForm button i {
+                font-size: 1.2rem;
+            }
+
+            i.fa-feather-alt {
+                font-size: 3rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .loading-spinner {
+                width: 50px;
+                height: 50px;
+            }
+
+            .loading-text {
+                font-size: 1.4rem;
+            }
+
+            footer {
+                padding: 2rem;
+                gap: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header><h1>Write Your Blog</h1></header>
+
+    <main>
+        <form id="postForm">
+            <i class="fas fa-feather-alt"></i>
+            <h2>Create a New Post</h2>
+            <input type="text" id="postTitle" placeholder="Post Title" required />
+            <textarea id="postContentArea" placeholder="Write your amazing content here..." rows="10" required></textarea>
+
+            <label for="postImageUpload">Upload Featured Image (Optional)</label>
+            <input type="file" id="postImageUpload" accept="image/*" />
+            <div id="imageUploadStatus"></div>
+            <input type="hidden" id="uploadedImageUrl" name="uploadedImageUrl" />
+
+            <div class="select-wrapper"> <label for="postCategory">Select Category</label>
+                <select id="postCategory" required>
+                    <option value="" disabled selected>Choose a category</option>
+                    <option value="technology">Technology</option>
+                    <option value="lifestyle">Lifestyle</option>
+                    <option value="travel">Travel</option>
+                    <option value="food">Food</option>
+                    <option value="education">Education</option>
+                    <option value="entertainment">Entertainment</option>
+                </select>
+            </div>
+
+            <button type="submit">Publish Post <i class="fas fa-paper-plane"></i></button>
+        </form>
+    </main>
+
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Publishing your post...</div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Admin Panel. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="about.html">About Us</a>
+        </div>
+    </footer>
+
+    <script>
+        const form = document.getElementById('postForm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
+        const postImageUploadInput = document.getElementById('postImageUpload');
+        const uploadedImageUrlInput = document.getElementById('uploadedImageUrl');
+        const imageUploadStatusText = document.getElementById('imageUploadStatus');
+
+        postImageUploadInput.addEventListener('change', async () => {
+            const file = postImageUploadInput.files[0];
+            if (!file) {
+                uploadedImageUrlInput.value = '';
+                imageUploadStatusText.textContent = '';
+                return;
+            }
+
+            imageUploadStatusText.textContent = 'Uploading image...';
+            imageUploadStatusText.style.color = '#ffeb3b'; // Yellow for uploading status
+
+            try {
+                // 1. Request a pre-signed URL from your backend for S3 upload
+                const presignedUrlRes = await fetch('/api/s3-presigned-url', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fileName: file.name,
+                        fileType: file.type
+                    })
+                });
+
+                const presignedUrlData = await presignedUrlRes.json();
+
+                if (!presignedUrlRes.ok) {
+                    throw new Error(`Failed to get pre-signed URL: ${presignedUrlData.message || presignedUrlRes.statusText}`);
+                }
+
+                const { uploadUrl, fileUrl } = presignedUrlData;
+
+                // 2. Upload the image file directly to S3 using the received pre-signed URL
+                const uploadToS3Res = await fetch(uploadUrl, {
+                    method: 'PUT',
+                    body: file,
+                    headers: {
+                        'Content-Type': file.type
+                    }
+                });
+
+                if (!uploadToS3Res.ok) {
+                    let errorDetails = '';
+                    try {
+                        errorDetails = await uploadToS3Res.text();
+                    } catch (textError) {
+                        console.error("Could not read S3 error response text:", textError);
+                    }
+
+                    console.error("S3 PUT Request Failed. Raw Response Body:", errorDetails);
+                    throw new Error(`Failed to upload image to S3: ${uploadToS3Res.statusText || 'Unknown error'}. ` +
+                                    `S3 Details: ${errorDetails.substring(0, 500) || 'No error details available.'}`);
+                }
+
+                uploadedImageUrlInput.value = fileUrl;
+                imageUploadStatusText.textContent = 'Image uploaded successfully!';
+                imageUploadStatusText.style.color = '#4CAF50'; // Green for success
+            } catch (error) {
+                console.error('Error uploading featured image:', error);
+                uploadedImageUrlInput.value = '';
+                imageUploadStatusText.textContent = 'Image upload failed. ' + error.message;
+                imageUploadStatusText.style.color = '#f44336'; // Red for error
+            }
+        });
+
+        // Event listener for main post form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loadingOverlay.classList.add('active'); // Activate loading overlay for post submission
+
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContentArea').value;
+            const category = document.getElementById('postCategory').value;
+            const imageUrl = document.getElementById('uploadedImageUrl').value;
+            const username = sessionStorage.getItem('loggedInUsername') || 'Guest User';
+
+            try {
+                const res = await fetch('/api/posts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: title,
+                        content: content,
+                        author: username,
+                        username: username,
+                        imageUrl: imageUrl || null,
+                        category: category
+                    })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    sessionStorage.setItem('lastPostTitle', title);
+                    sessionStorage.setItem('postStatus', 'success');
+                    window.location.href = 'post-success.html';
+                } else {
+                    alert('Error: ' + data.message);
+                    loadingOverlay.classList.remove('active');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Network error');
+                loadingOverlay.classList.remove('active');
+            }
+        });
+
+        // --- MutationObserver for Debugging (Retained) ---
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.addedNodes.length > 0) {
+                    console.log("Nodes added to the DOM:", mutation.addedNodes);
+                }
+            });
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+        // --- END MutationObserver ---
+    </script>
+</body>
+</html>
