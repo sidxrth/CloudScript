@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables - Essential for consistent styling */
+        :root {
+            --p: #004D40; /* Primary Green */
+            --s: #FF9800; /* Secondary Orange */
+            --lb: #E0F7FA; /* Light Blue Background */
+            --tc: #333; /* Text Color */
+            --lt: #fff; /* Light Text */
+            --br: 8px; /* Standard Border Radius */
+            --ts: .3s; /* Transition Speed */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: var(--lb); /* Light Blue Background */
+            color: var(--tc); /* Dark Text Color */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .container {
+            display: flex;
+            height: 100vh; /* Make container fill viewport height */
+            width: 100%;
+        }
+
+        .left-panel {
+            background: var(--p); /* Primary Green Background */
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--lt); /* White text */
+            text-align: center;
+        }
+
+        .left-panel img {
+            max-width: 300px;
+            margin-bottom: 2rem;
+            border-radius: var(--br); /* Use CSS variable for consistency */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .left-panel h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            color: var(--lb); /* Lighter blue for heading */
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .left-panel p {
+            max-width: 350px;
+            font-size: 1rem;
+            color: #B2DFDB; /* Specific lighter green for paragraph */
+            line-height: 1.6;
+        }
+
+        .right-panel {
+            background: var(--lt); /* White background */
+            flex: 1;
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right-panel h1 {
+            font-size: 2.2rem;
+            color: var(--p); /* Primary Green for heading */
+            margin-bottom: 2rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .right-panel form {
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .right-panel input {
+            padding: 1rem 1.2rem;
+            border: 1px solid #c7d9e0; /* Light grey border */
+            border-radius: var(--br); /* Use CSS variable for consistency */
+            font-size: 1rem;
+            transition: border-color var(--ts) ease, box-shadow var(--ts) ease;
+        }
+
+        .right-panel input:focus {
+            outline: none;
+            border-color: var(--p); /* Primary Green on focus */
+            box-shadow: 0 0 0 3px rgba(0, 77, 64, 0.2); /* Light primary green shadow */
+        }
+
+        .right-panel button[type="submit"] {
+            padding: 1rem;
+            background-color: var(--s); /* Secondary Orange */
+            color: var(--lt); /* White text */
+            border: none;
+            font-size: 1.1rem;
+            border-radius: var(--br); /* Use CSS variable for consistency */
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background var(--ts) ease, transform 0.2s ease, box-shadow var(--ts) ease;
+        }
+
+        .right-panel button[type="submit"]:hover {
+            background-color: #FB8C00; /* Slightly darker orange on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .right-panel p {
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            color: #666; /* Dark grey text */
+        }
+
+        .right-panel p a {
+            color: var(--p); /* Primary Green link */
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .right-panel p a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-panel, .right-panel {
+                flex: none;
+                width: 100%;
+            }
+
+            .left-panel {
+                padding: 2rem 1rem;
+                min-height: 250px; /* Ensures panel has some height on mobile */
+            }
+
+            .left-panel h3 {
+                font-size: 1.4rem;
+            }
+
+            .left-panel p {
+                font-size: 0.9rem;
+            }
+
+            .right-panel {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .right-panel h1 {
+                font-size: 1.8rem;
+            }
+
+            .right-panel input {
+                padding: 0.9rem 1rem;
+            }
+
+            .right-panel button[type="submit"] {
+                font-size: 1rem;
+                padding: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <img src="assets/logo.png" alt="Admin Logo">
+            <h3>Admin Access Portal</h3>
+            <p>Securely manage your platform content and user base.</p>
+        </div>
+
+        <div class="right-panel">
+            <h1>Admin Login</h1>
+            <form id="admin-login-form">
+                <input type="email" placeholder="Email" id="email" required>
+                <input type="password" placeholder="Password" id="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p>Not an admin? <a href="index.html">Go to Home</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            // Hardcoded admin credentials for client-side validation for the FIRST login page
+            const ADMIN_EMAIL = 'sre@gmail.com';
+            const ADMIN_PASSWORD = '12345';
+
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                console.log('Admin login successful (first stage)! Redirecting to passcode page...');
+                // Store a flag if needed, e.g., to indicate user passed first stage
+                sessionStorage.setItem('adminEmailVerified', 'true'); 
+                
+                // *** THIS IS THE CRUCIAL CHANGE ***
+                // Redirect to the 4-digit passcode login page
+                window.location.replace('adm-login.html'); 
+            } else {
+                // Show an error message for invalid credentials on the first page
+                alert('Admin login failed: Invalid email or password.');
+                console.error('Admin login failed: Invalid email or password.');
+            }
+        });
+    </script>
+</body>
+</html>

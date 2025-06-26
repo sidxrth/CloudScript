@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            background: #E0F7FA;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .left-panel {
+            background: #004D40;
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .left-panel img {
+            max-width: 300px;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .left-panel h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            color: #E0F7FA;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .left-panel p {
+            max-width: 350px;
+            font-size: 1rem;
+            color: #B2DFDB;
+            line-height: 1.6;
+        }
+
+        .right-panel {
+            background: #ffffff;
+            flex: 1;
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right-panel h1 {
+            font-size: 2.2rem;
+            color: #004D40;
+            margin-bottom: 2rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .right-panel form {
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .right-panel input {
+            padding: 1rem 1.2rem;
+            border: 1px solid #c7d9e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .right-panel input:focus {
+            outline: none;
+            border-color: #004D40;
+            box-shadow: 0 0 0 3px rgba(0, 77, 64, 0.2);
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: -1rem;
+            margin-bottom: -0.8rem;
+            display: none;
+        }
+
+        #loading {
+            color: #004D40;
+            font-size: 0.95rem;
+            margin-top: -0.5rem;
+            margin-bottom: 0.5rem;
+            display: none;
+        }
+
+        .right-panel .forgot {
+            text-align: right;
+            font-size: 0.9rem;
+            margin-top: -0.5rem;
+        }
+
+        .right-panel .forgot a {
+            color: #004D40;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .right-panel .forgot a:hover {
+            text-decoration: underline;
+        }
+
+        .right-panel button[type="submit"] {
+            padding: 1rem;
+            background-color: #FF9800;
+            color: #fff;
+            border: none;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .right-panel button[type="submit"]:hover {
+            background-color: #FB8C00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .right-panel p {
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .right-panel p a {
+            color: #004D40;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .right-panel p a:hover {
+            text-decoration: underline;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .left-panel, .right-panel { flex: none; width: 100%; }
+            .left-panel { padding: 2rem 1rem; min-height: 250px; }
+            .left-panel h3 { font-size: 1.4rem; }
+            .left-panel p { font-size: 0.9rem; }
+            .right-panel { padding: 2.5rem 1.5rem; }
+            .right-panel h1 { font-size: 1.8rem; }
+            .right-panel input { padding: 0.9rem 1rem; }
+            .right-panel button[type="submit"] {
+                font-size: 1rem;
+                padding: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <img src="assets/logo.png" alt="Company Logo: Blog Site">
+            <h3>Discover Your Next Great Read!</h3>
+            <p>Join our community of passionate writers and readers. Share your stories, explore new ideas, and connect with like-minded individuals.</p>
+        </div>
+
+        <div class="right-panel">
+            <h1>Welcome to Our Blog Community</h1>
+            <form id="login-form">
+                <label for="email" class="sr-only">Email</label>
+                <input type="text" id="email" name="email" placeholder="Email" required autofocus autocorrect="off" autocapitalize="none">
+
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+
+                <div id="error-message" class="error-message" role="alert" aria-live="polite"></div>
+                <div id="loading">Logging in...</div>
+
+                <div class="forgot"><a href="#">Forgot password?</a></div>
+                <button type="submit">Login</button>
+            </form>
+
+            <p>New to our community? <a href="signup.html">Create an Account</a></p>
+            <p>Admin? <a href="admin-login.html">Login as Admin</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-message');
+            const loading = document.getElementById('loading');
+            const submitBtn = document.querySelector('button[type="submit"]');
+
+            // Reset states
+            errorMsg.style.display = 'none';
+            errorMsg.textContent = '';
+            loading.style.display = 'block';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                loading.style.display = 'none';
+
+                if (response.ok) {
+                    if (data.user) {
+                        sessionStorage.setItem('loggedInUsername', data.user.fullName);
+                        sessionStorage.setItem('userRole', data.user.role);
+                        if (data.user.role === 'admin') {
+                            window.location.href = 'admin-dashboard.html';
+                        } else {
+                            window.location.href = 'splash1.html';
+                        }
+                    }
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Login';
+                    errorMsg.textContent = data.message || 'Login failed. Please try again.';
+                    errorMsg.style.display = 'block';
+                }
+            } catch (error) {
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Login';
+                errorMsg.textContent = 'Could not connect to the server. Please check your internet connection and try again.';
+                errorMsg.style.display = 'block';
+                console.error('Login error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

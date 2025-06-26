@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        :root {
+            --p: #004D40; /* Primary - Dark Teal */
+            --s: #FF9800; /* Secondary - Vibrant Orange */
+            --lb: #E0F7FA; /* Light Background - Pale Blue-Green */
+            --db: #00008B; /* Dark Background - from hero section */
+            --tc: #333; /* Text Color - Dark Grey */
+            --lt: #fff; /* Light Text - White */
+            --cb: #fff; /* Card Background - White */
+            --fb: #00332B; /* Footer Background - Darker Teal */
+            --ft: #B2DFDB; /* Footer Text - Light Blue-Green */
+            --shl: rgba(0,0,0,.15); /* Shadow Light */
+            --shm: rgba(0,0,0,.25); /* Shadow Medium */
+            --shh: rgba(0,0,0,.4); /* Shadow Heavy */
+            --ts: .3s; /* Transition Speed */
+            --br: 16px; /* Border Radius */
+            --sp: 1.8rem; /* Standard Padding */
+            --fs: 1rem; /* Font Size */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--lb);
+            color: var(--tc);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: var(--p);
+            color: var(--lt);
+            padding: var(--fs) 0;
+            width: 100%;
+            display: flex;
+            justify-content: center; /* Center the h1 */
+            align-items: center;
+            box-shadow: 0 4px 12px var(--shh);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            /* Reverted to row for h1 centering after filter moved out */
+            flex-direction: row; 
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-shadow: 2px 2px 8px var(--shh);
+            transition: transform var(--ts) ease;
+            /* Removed bottom margin as filter moved out */
+        }
+
+        header h1:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Category Filter Positioning */
+        .category-filter {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            /* Absolute positioning within main */
+            position: absolute; 
+            top: 1.5rem; /* Adjust as needed */
+            right: 1.8rem; /* Adjust as needed, matches main padding */
+            z-index: 10; 
+        }
+
+        .category-filter label {
+            color: var(--p); /* Changed to primary color for better contrast when in main */
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* Enhanced Select box styling */
+        .category-filter select {
+            padding: 0.6rem 1.8rem 0.6rem 1rem; /* More space on right for custom arrow */
+            border-radius: 8px;
+            border: 1px solid var(--p); /* Use primary color for border */
+            background-color: var(--cb);
+            color: var(--tc);
+            font-size: 1rem;
+            cursor: pointer;
+            outline: none;
+            transition: border-color var(--ts) ease, box-shadow var(--ts) ease, background-color var(--ts) ease;
+            -webkit-appearance: none; /* Remove default arrow for Chrome/Safari */
+            -moz-appearance: none;   /* Remove default arrow for Firefox */
+            appearance: none;        /* Remove default arrow for others */
+            /* Custom SVG arrow for dropdown */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23004D40%22%20d%3D%22M287%2069.9a17.6%2017.6%200%200%200-24.7%200l-118%20117.9L25.4%2069.9a17.6%2017.6%200%200%200-24.7%2024.7l130.4%20130.4c6.9%206.9%2017.9%206.9%2024.7%200L287%2094.6c6.9-6.8%206.9-17.9-.1-24.7z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 0.8rem center; /* Position arrow */
+            background-size: 0.8em; /* Size arrow */
+            box-shadow: 0 2px 5px var(--shl); /* Subtle shadow */
+        }
+
+        .category-filter select:hover {
+            border-color: var(--s); /* Highlight on hover */
+            background-color: #f8f8f8; /* Slightly lighter background */
+        }
+
+        .category-filter select:focus {
+            border-color: var(--s);
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.3);
+        }
+
+        main {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 1200px;
+            padding: calc(var(--sp) * 1.5) var(--sp);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative; /* Crucial for absolute positioning of .category-filter */
+            padding-top: calc(var(--sp) * 1.5 + 40px); /* Add extra padding to main to prevent content overlap with absolutely positioned filter */
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            width: 100%;
+            padding: 2rem 0;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .blog-card {
+            background-color: var(--cb);
+            border-radius: var(--br);
+            box-shadow: 0 8px 24px var(--shm);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--ts) ease, box-shadow var(--ts) ease;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px var(--shh);
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+
+        .blog-card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .blog-card h3 {
+            font-size: 1.6rem;
+            color: var(--p);
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .blog-card .author-info {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 1rem;
+        }
+
+        .blog-card p {
+            font-size: 1rem;
+            color: var(--tc);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .blog-card .read-more {
+            display: inline-block;
+            background-color: var(--s);
+            color: var(--lt);
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            align-self: flex-start;
+            transition: background-color var(--ts) ease, transform var(--ts) ease, box-shadow var(--ts) ease;
+            box-shadow: 0 4px 8px var(--shl);
+        }
+
+        .blog-card .read-more:hover {
+            background-color: #e65100;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--shm);
+        }
+
+        .no-posts-message, .error-message {
+            font-size: 1.5rem;
+            color: #777;
+            margin-top: 50px;
+            padding: 2rem;
+            background-color: var(--cb);
+            border-radius: var(--br);
+            box-shadow: 0 10px 25px var(--shl);
+            text-align: center;
+        }
+
+        /* Loading Overlay Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid var(--s);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: var(--lt);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        footer {
+            width: 100%;
+            background-color: var(--fb);
+            color: var(--ft);
+            padding: 2.5rem;
+            font-size: var(--fs);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            margin-top: auto;
+            box-shadow: 0 -4px 20px var(--shh);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--ft);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--ts) ease, transform var(--ts) ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--s);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 1.5rem 0;
+            }
+            .blog-card {
+                max-width: 400px; /* Constrain single column cards */
+                margin: 0 auto; /* Center single column cards */
+            }
+            .no-posts-message, .error-message {
+                font-size: 1.2rem;
+                margin-top: 30px;
+                padding: 1.5rem;
+            }
+            footer {
+                padding: 1.5rem;
+            }
+            /* Responsive adjustment for filter position */
+            .category-filter {
+                position: static; /* Revert to static flow on smaller screens */
+                margin-top: 1rem; /* Add some top margin */
+                margin-bottom: 1.5rem; /* Add margin below it */
+                width: calc(100% - 2 * var(--sp)); /* Occupy full width within main's padding */
+                justify-content: center; /* Center the filter elements */
+                padding: 0; /* Remove specific padding for static */
+            }
+            .category-filter select {
+                width: 100%; /* Make select full width on smaller screens */
+            }
+            main {
+                padding-top: calc(var(--sp) * 1.5); /* Remove extra padding when filter is static */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .blog-card h3 {
+                font-size: 1.4rem;
+            }
+            .blog-card p {
+                font-size: 0.9rem;
+            }
+            .blog-card .read-more {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            .loading-spinner {
+                width: 40px;
+                height: 40px;
+            }
+            .loading-text {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Our Blog</h1>
+    </header>
+
+    <main>
+        <div class="category-filter">
+            <label for="categorySelect">Filter by Category:</label>
+            <select id="categorySelect">
+            </select>
+        </div>
+        <div id="blogPostsContainer" class="blog-grid">
+        </div>
+        <p class="no-posts-message" id="noPostsMessage" style="display: none;">
+            No approved blog posts yet. Check back later!
+        </p>
+        <p class="error-message" id="errorMessage" style="display: none;">
+            Failed to load blog posts. Please try again later.
+        </p>
+    </main>
+
+    <div id="loadingOverlay" class="loading-overlay active">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading posts...</div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 My Blog. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="about.html">About Us</a>
+            </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const blogPostsContainer = document.getElementById('blogPostsContainer');
+            const noPostsMessage = document.getElementById('noPostsMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const categorySelect = document.getElementById('categorySelect');
+
+            let allApprovedPosts = [];
+            let availableCategories = new Set();
+
+            const localImageUrls = [
+                'assets/img1.jpg',
+                'assets/image2.jpg',
+                'assets/img3.jpg',
+                'assets/img4.jpg',
+                'assets/img5.jpg',
+                'assets/img6.jpg',
+                'assets/img7.jpg',
+                'assets/img8.jpg',
+                'assets/img9.jpg',
+                'assets/img10.jpg'
+            ];
+
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            let shuffledImageUrls = shuffleArray([...localImageUrls]);
+            let imageIndex = 0;
+
+            async function fetchAndRenderPosts(category = 'all') {
+                loadingOverlay.classList.add('active');
+                noPostsMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+                blogPostsContainer.innerHTML = '';
+
+                try {
+                    const response = await fetch('/api/posts/approved');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const posts = await response.json();
+                    allApprovedPosts = posts;
+
+                    // Populate categories for the dropdown, but only for posts that actually have a category
+                    availableCategories.clear();
+                    allApprovedPosts.forEach(post => {
+                        if (post.category && post.category.trim() !== '') { // Only add if category exists and is not empty/whitespace
+                            availableCategories.add(post.category.toLowerCase());
+                        }
+                    });
+                    renderCategories();
+
+                    let filteredPosts;
+                    if (category === 'all') {
+                        filteredPosts = allApprovedPosts;
+                    } else { // Filter by specific category, posts without categories will be excluded here
+                        filteredPosts = allApprovedPosts.filter(post => post.category && post.category.toLowerCase() === category.toLowerCase());
+                    }
+
+                    if (filteredPosts.length === 0) {
+                        noPostsMessage.style.display = 'block';
+                    } else {
+                        imageIndex = 0;
+                        filteredPosts.forEach(post => {
+                            const card = document.createElement('div');
+                            card.classList.add('blog-card');
+
+                            let imageUrl;
+                            if (post.imageUrl && post.imageUrl !== '') {
+                                imageUrl = post.imageUrl;
+                            } else {
+                                imageUrl = shuffledImageUrls[imageIndex % shuffledImageUrls.length];
+                                imageIndex++;
+                            }
+                            
+                            card.innerHTML = `
+                                <img src="${imageUrl}" alt="Blog Image for ${post.title}" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x200?text=Image+Load+Error';">
+                                <div class="blog-card-content">
+                                    <h3>${post.title}</h3>
+                                    <p class="author-info">By: ${post.author || 'Anonymous'} | ${new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                    <p>${post.content.substring(0, 180)}${post.content.length > 180 ? '...' : ''}</p>
+                                    <a href="blog-detail.html?id=${post.id}" class="read-more">Read More &rarr;</a>
+                                </div>
+                            `;
+                            blogPostsContainer.appendChild(card);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error fetching approved posts:', error);
+                    errorMessage.style.display = 'block';
+                } finally {
+                    loadingOverlay.classList.remove('active');
+                }
+            }
+
+            function renderCategories() {
+                categorySelect.innerHTML = '';
+
+                const allPostsOption = document.createElement('option');
+                allPostsOption.value = 'all';
+                allPostsOption.textContent = 'All Posts';
+                categorySelect.appendChild(allPostsOption);
+
+                const sortedCategories = Array.from(availableCategories).sort();
+
+                sortedCategories.forEach(category => {
+                    // Skip adding the 'uncategorized' option if it somehow exists (as a safeguard)
+                    if (category === 'uncategorized') return; 
+
+                    const option = document.createElement('option');
+                    option.value = category;
+                    option.textContent = category.charAt(0).toUpperCase() + category.slice(1); // Capitalize first letter
+                    categorySelect.appendChild(option);
+                });
+
+                const currentSelectedValue = categorySelect.dataset.currentFilter || 'all';
+                categorySelect.value = currentSelectedValue;
+            }
+
+            categorySelect.addEventListener('change', (event) => {
+                const selectedCategory = event.target.value;
+                categorySelect.dataset.currentFilter = selectedCategory;
+                fetchAndRenderPosts(selectedCategory);
+            });
+
+            fetchAndRenderPosts();
+        });
+    </script>
+</body>
+</html>

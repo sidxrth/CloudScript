@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="blogDetailPageTitle">Blog Post - My Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            /* Copied directly from home.html and blogs.html for consistency */
+            --p: #004D40; /* Primary - Dark Teal */
+            --s: #FF9800; /* Secondary - Vibrant Orange */
+            --lb: #E0F7FA; /* Light Background - Pale Blue-Green */
+            --db: #00008B; /* Dark Background - from hero section, not directly used here */
+            --tc: #333; /* Text Color - Dark Grey */
+            --lt: #fff; /* Light Text - White */
+            --cb: #fff; /* Card Background - White */
+            --fb: #00332B; /* Footer Background - Darker Teal */
+            --ft: #B2DFDB; /* Footer Text - Light Blue-Green */
+            --shl: rgba(0,0,0,.15); /* Shadow Light */
+            --shm: rgba(0,0,0,.25); /* Shadow Medium */
+            --shh: rgba(0,0,0,.4); /* Shadow Heavy */
+            --ts: .3s; /* Transition Speed */
+            --br: 16px; /* Border Radius */
+            --sp: 1.8rem; /* Standard Padding */
+            --fs: 1rem; /* Font Size */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--lb);
+            color: var(--tc);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: var(--p);
+            color: var(--lt);
+            padding: var(--fs) 0.5rem;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 12px var(--shh);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-shadow: 2px 2px 8px var(--shh);
+            transition: transform var(--ts) ease;
+        }
+
+        header h1:hover {
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            background-color: transparent;
+            border: 2px solid var(--lt);
+            color: var(--lt);
+            padding: .6rem 1.4rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            box-shadow: 0 4px 8px var(--shl);
+            transition: all var(--ts) ease;
+        }
+
+        .back-button:hover {
+            background-color: var(--lt);
+            color: var(--s);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,.3);
+        }
+
+        main {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 900px; /* Wider for full blog post */
+            padding: calc(var(--sp) * 1.5) var(--sp);
+            box-sizing: border-box;
+            text-align: left; /* Align text left for readability */
+            margin: var(--sp) auto;
+            background-color: var(--cb); /* White background for the main content block */
+            border-radius: var(--br);
+            box-shadow: 0 10px 25px var(--shm); /* More prominent shadow */
+        }
+
+        .blog-post-full {
+            padding: 1.5rem;
+        }
+
+        .blog-post-full h2 {
+            font-size: 2.5rem;
+            color: var(--p);
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+            text-align: center; /* Center the title */
+        }
+
+        .blog-post-full .meta-info {
+            font-size: 0.95rem;
+            color: #777;
+            text-align: center; /* Center meta info */
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .blog-post-full img {
+            width: 100%;
+            max-height: 450px; /* Max height for featured image */
+            object-fit: cover;
+            border-radius: var(--br);
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px var(--shl);
+        }
+
+        .blog-post-full p {
+            font-size: 1.1rem;
+            color: var(--tc);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            white-space: pre-wrap; /* Preserves whitespace and line breaks for content */
+        }
+
+        .no-post-message, .error-message {
+            font-size: 1.5rem;
+            color: #777;
+            margin-top: 50px;
+            padding: 2rem;
+            background-color: var(--cb);
+            border-radius: var(--br);
+            box-shadow: 0 10px 25px var(--shl);
+            text-align: center;
+        }
+
+        footer {
+            width: 100%;
+            background-color: var(--fb);
+            color: var(--ft);
+            padding: 2.5rem;
+            font-size: var(--fs);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            margin-top: auto;
+            box-shadow: 0 -4px 20px var(--shh);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--ft);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--ts) ease, transform var(--ts) ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--s);
+            transform: translateY(-2px);
+        }
+
+        /* Loading Overlay Styles - Matches other pages */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0; /* Changed from 0 to 1 for initial visibility for debugging */
+            visibility: hidden;
+            transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid var(--s);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: var(--lt);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            main { padding: calc(var(--sp) * 1.5) 1rem; }
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; padding: var(--fs) 0.5rem; gap: 1rem; }
+            header h1 { font-size: 2.2rem; }
+            .back-button { font-size: 1rem; padding: 0.8rem 1.4rem; }
+            main { padding: 1.5rem; margin: 1.5rem auto; }
+            .blog-post-full h2 { font-size: 2rem; }
+            .blog-post-full .meta-info { font-size: 0.85rem; }
+            .blog-post-full p { font-size: 1rem; }
+            .no-post-message, .error-message { font-size: 1.2rem; margin-top: 30px; padding: 1.5rem; }
+            footer { padding: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 1.8rem; }
+            .back-button { font-size: 0.9rem; padding: 0.6rem 1rem; }
+            .blog-post-full h2 { font-size: 1.7rem; }
+            .loading-spinner { width: 40px; height: 40px; }
+            .loading-text { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CloudScript Blog</h1>
+        <a href="blogs.html" class="back-button">Back to All Blogs</a>
+    </header>
+
+    <main>
+        <div id="blogPostContent" style="display: none;">
+            <div class="blog-post-full">
+                <h2 id="postTitle"></h2>
+                <p class="meta-info" id="postMeta"></p>
+                <img id="postImage" src="" alt="Blog Post Image" style="display: none;">
+                <p id="postContent"></p>
+            </div>
+        </div>
+        <p class="no-post-message" id="noPostMessage" style="display: none;">
+            No blog post found. The link might be broken or the post does not exist.
+        </p>
+        <p class="error-message" id="errorMessage" style="display: none;">
+            An error occurred while loading the blog post. Please try again later.
+        </p>
+    </main>
+
+    <div id="loadingOverlay" class="loading-overlay active">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading blog post...</div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 My Blog. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="about.html">About Us</a>
+            </div>
+    </footer>
+
+    <script>
+        // --- DEBUGGING LOGS ADDED HERE ---
+        console.log("blog-detail.html script is starting!"); 
+        // --- END DEBUGGING LOGS ---
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log("DOMContentLoaded event fired. Attempting to load post."); // Debugging log
+
+            const blogPostContentDiv = document.getElementById('blogPostContent');
+            const postTitleElem = document.getElementById('postTitle');
+            const postMetaElem = document.getElementById('postMeta');
+            const postImageElem = document.getElementById('postImage');
+            const postContentElem = document.getElementById('postContent');
+            const noPostMessageElem = document.getElementById('noPostMessage');
+            const errorMessageElem = document.getElementById('errorMessage');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const blogDetailPageTitle = document.getElementById('blogDetailPageTitle');
+
+            // Function to get query parameters from the URL
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            const postId = getQueryParam('id');
+            console.log("Extracted postId:", postId); // Debugging log
+
+            if (!postId) {
+                console.log("No postId found in URL. Displaying 'no post' message."); // Debugging log
+                loadingOverlay.classList.remove('active');
+                noPostMessageElem.style.display = 'block';
+                return;
+            }
+
+            try {
+                console.log(`Attempting to fetch post from: /api/posts/${postId}`); // Debugging log
+                const response = await fetch(`/api/posts/${postId}`);
+                
+                console.log("Fetch response received. Status:", response.status); // Debugging log
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+                    if (response.status === 404) {
+                        throw new Error('Post not found.');
+                    }
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                }
+
+                const post = await response.json();
+                console.log("Post data received:", post); // Debugging log
+
+                if (post) {
+                    blogDetailPageTitle.textContent = `${post.title} - My Blog`;
+                    postTitleElem.textContent = post.title;
+                    postMetaElem.textContent = `By: ${post.author || 'Anonymous'} | ${new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+                    postContentElem.textContent = post.content; // Use textContent to prevent XSS if content isn't HTML safe
+
+                    if (post.imageUrl) {
+                        postImageElem.src = post.imageUrl;
+                        postImageElem.style.display = 'block';
+                        // Add error handling for image loading
+                        postImageElem.onerror = function() {
+                            this.onerror = null; // Prevent infinite loops
+                            this.src = 'https://via.placeholder.com/900x450?text=Image+Not+Available'; // Fallback placeholder
+                            console.error('Failed to load image:', post.imageUrl);
+                        };
+                    } else {
+                        postImageElem.style.display = 'none'; // Hide if no image URL
+                    }
+                    blogPostContentDiv.style.display = 'block';
+                } else {
+                    console.log("Post data is empty after fetch."); // Debugging log
+                    noPostMessageElem.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Error fetching blog post:', error); // Any errors should show here
+                errorMessageElem.textContent = `Failed to load blog post: ${error.message}.`;
+                errorMessageElem.style.display = 'block';
+            } finally {
+                console.log("Attempting to remove loading overlay."); // Debugging log
+                loadingOverlay.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
